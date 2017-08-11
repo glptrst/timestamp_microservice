@@ -15,10 +15,16 @@ app.get('/:value', function(req, res) {
         // if it doesn't, return null as values
 
     if (!isNaN(req.params.value)) { // if parameter is a number then it is a valid unix timestamp
+	// get natural language date
+	// helpful: https://stackoverflow.com/questions/847185/convert-a-unix-timestamp-to-time-in-javascript
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
+	var naturalLanguageDate = new Date(req.params.value*1000);
+	var options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
+	
 	res.json(
     	    {
     		unix: req.params.value,
-    		natural: '?'
+    		natural: naturalLanguageDate.toLocaleDateString('en-US', options)
     	    }
     	);
     } else { // if parameter is not a number then check if it is a valid natural language date
@@ -32,5 +38,5 @@ app.get('/:value', function(req, res) {
 });
 
 app.listen(3000, function() {
-    console.log('working');
+    console.log('Listening on port 3000');
 });
