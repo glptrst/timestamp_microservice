@@ -29,13 +29,35 @@ app.get('/:date', function(req, res){
 	    //the parameter splitted with ' ' should give an arrary of length three
 	    var splitted = string.split(' ');
 	    if (splitted.length !== 3) {
-		res.send('invalid format!');
+		res.send('Invalid format!');
 	    } else {
 		// splitted[0] should be a string
-
-		// splitted[1] should be a number and a comma
-
-		// splitted[2] should be a number 
+		if (typeof splitted[0] === 'string') {
+		    // splitted[1] should be a number and a comma
+		    var shouldBeAnum = splitted[1].substring(0, splitted[1].length - 1);
+		    if (Number.isInteger(Number(shouldBeAnum))) {
+			var shouldBeAcomma = splitted[1].charAt(splitted[1].length - 1);
+			if (shouldBeAcomma === ',') {
+			    // splitted[2] should be a number
+			    if (Number.isInteger(Number(splitted[2]))) {
+				res.json(
+				    {
+					unix: 'TODO',
+					natural: string
+				    }
+				);
+			    } else {
+				res.send('Invalid format!');
+			    }
+			} else {
+			    res.send('Invalid format!');
+			}
+		    } else {
+			res.send('Invalid format!');
+		    }
+		} else {
+		    res.send('Invalid format!');
+		}
 	    }
 	}
     }
