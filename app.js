@@ -29,7 +29,12 @@ app.get('/:date', function(req, res){
 	    //the parameter splitted with ' ' should give an arrary of length three
 	    var splitted = string.split(' ');
 	    if (splitted.length !== 3) {
-		res.send('Invalid format!');
+		res.json(
+		    {
+			unix: null,
+			natural: null
+		    }
+		);
 	    } else {
 		// splitted[0] should be a string
 		if (typeof splitted[0] === 'string') {
@@ -40,23 +45,47 @@ app.get('/:date', function(req, res){
 			if (shouldBeAcomma === ',') {
 			    // splitted[2] should be a number
 			    if (Number.isInteger(Number(splitted[2]))) {
+				var month = splitted[0].substring(0, 3);
+				var day = splitted[1].substring(0, splitted[1].length - 1);
+				var year = splitted[2];
+				var unixTimestamp = Date.parse(String(month + ' ' + day + ', ' + year + ' UTC'));
 				res.json(
 				    {
-					unix: 'TODO',
+					unix: unixTimestamp,
 					natural: string
 				    }
 				);
 			    } else {
-				res.send('Invalid format!');
+				res.json(
+				    {
+					unix: null,
+					natural: null
+				    }
+				);
 			    }
 			} else {
-			    res.send('Invalid format!');
+			    res.json(
+				{
+				    unix: null,
+				    natural: null
+				}
+			    );
 			}
 		    } else {
-			res.send('Invalid format!');
+			res.json(
+			    {
+				unix: null,
+				natural: null
+			    }
+			);
 		    }
 		} else {
-		    res.send('Invalid format!');
+		    res.json(
+			{
+			    unix: null,
+			    natural: null
+			}
+		    );
 		}
 	    }
 	}
