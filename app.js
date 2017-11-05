@@ -15,14 +15,24 @@ app.get('/:date', function(req, res){
 	    // get natural language date
 	    // helpful: https://stackoverflow.com/questions/847185/convert-a-unix-timestamp-to-time-in-javascript
 	    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
+	    var date = new Date(Number(req.params.date)*1000);
 	    var options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
-	    var naturalLanguageDate = new Date(Number(req.params.date)*1000);
-	    res.json(
-		{
-		    unix: req.params.date,
-		    natural: naturalLanguageDate.toLocaleDateString('en-US', options)
-		}
-	    );
+	    var natLangDate = date.toLocaleDateString('en-US', options);
+	    if (natLangDate === 'Invalid Date') {
+		res.json(
+		    {
+			unix: null,
+			natural: null
+		    }
+		);
+	    } else {
+	    	res.json(
+		    {
+			unix: req.params.date,
+			natural: date.toLocaleDateString('en-US', options)
+		    }
+		);
+	    }
 	} else { // if parameter is not an integer
 	    // check if it is a date in a correct format
 	    var string = req.params.date;
