@@ -5,7 +5,7 @@ const path  = require('path');
 const app = express();
 
 app.get('/', function(req, res) {
-    res.send('hi, give me a parameter...');
+    res.sendFile(path.join(__dirname+'/index.html'));
 });
 app.get('/:date', function(req, res){
     // avoid favicon request: https://stackoverflow.com/questions/17952436/node-js-double-console-log-output
