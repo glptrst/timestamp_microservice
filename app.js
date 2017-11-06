@@ -1,5 +1,7 @@
 const express = require('express');
 
+const path  = require('path');
+
 const app = express();
 
 app.get('/', function(req, res) {
@@ -59,12 +61,22 @@ app.get('/:date', function(req, res){
 				var day = splitted[1].substring(0, splitted[1].length - 1);
 				var year = splitted[2];
 				var unixTimestamp = Date.parse(String(month + ' ' + day + ', ' + year + ' UTC'));
-				res.json(
-				    {
-					unix: unixTimestamp,
-					natural: string
-				    }
-				);
+				console.log(!Number.isInteger(unixTimestamp));
+				if (!Number.isInteger(unixTimestamp)) { // if Date.parse didn't return an int, there is still something wrong in the string
+				    res.json(
+					{
+					    unix: null,
+					    natural: null
+					}
+				    );
+				} else {
+				    res.json(
+				    	{
+				    	    unix: unixTimestamp,
+				    	    natural: string
+				    	}
+				    );
+				}
 			    } else {
 				res.json(
 				    {
