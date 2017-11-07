@@ -61,8 +61,7 @@ app.get('/:date', function(req, res){
 				var day = splitted[1].substring(0, splitted[1].length - 1);
 				var year = splitted[2];
 				var unixTimestamp = Date.parse(String(month + ' ' + day + ', ' + year + ' UTC'));
-				console.log(!Number.isInteger(unixTimestamp));
-				if (!Number.isInteger(unixTimestamp)) { // if Date.parse didn't return an int, there is still something wrong in the string
+				if (isNaN(unixTimestamp)) { // if Date.parse returns a NaN, then there is still something wrong in the string given as a input
 				    res.json(
 					{
 					    unix: null,
