@@ -7,7 +7,7 @@ const app = express();
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname+'/index.html'));
 });
-app.get('/:date', function(req, res){
+app.get('/:date', function(req, res) {
     // avoid favicon request: https://stackoverflow.com/questions/17952436/node-js-double-console-log-output
     if(req.url === '/favicon.ico')
     {
@@ -61,7 +61,7 @@ app.get('/:date', function(req, res){
 				var day = splitted[1].substring(0, splitted[1].length - 1);
 				var year = splitted[2];
 				var unixTimestamp = Date.parse(String(month + ' ' + day + ', ' + year + ' UTC'));
-				if (isNaN(unixTimestamp)) { // if Date.parse returns a NaN, then there is still something wrong in the string given as a input
+				if (Number.isNaN(unixTimestamp)) { // if Date.parse returns a NaN, then there is still something wrong in the string given as a input
 				    res.json(
 					{
 					    unix: null,
